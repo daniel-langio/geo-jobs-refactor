@@ -4,4 +4,14 @@ version = "0.1.0"
 description = "Refactoring Tool For b-partners/geo-jobs"
 readme = "README.md"
 requires-python = ">=3.12"
-dependencies = []
+dependencies = [
+    "ruff>=0.14.3",
+    "uv>=0.9.7",
+]
+
+[tool.ruff]
+line-length = 88
+select = ["E", "F", "W", "C"]  # types de règles à appliquer
+ignore = ["E501"]               # exemple : ignorer les lignes trop longues
+exclude = ["venv", "build", ".venv"]     # dossiers à ignorer
+
