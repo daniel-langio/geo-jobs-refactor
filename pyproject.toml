@@ -1,0 +1,7 @@
+[project]
+name = "geo-jobs-refactor"
+version = "0.1.0"
+description = "Refactoring Tool For b-partners/geo-jobs"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = []
