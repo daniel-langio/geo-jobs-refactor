@@ -1,11 +1,8 @@
 poja_config_blueprints = {
-    "settings.gradle": """
-rootProject.name = '{geo-jobs_env}'
+    "settings.gradle": """rootProject.name = '{geo-jobs_env}'
+""",
 
-    """,
-
-    ".github/workflows/cd-compute-permission.yml":"""
-name: CD compute permission
+    ".github/workflows/cd-compute-permission.yml": """name: CD compute permission
 
 on:
   push:
@@ -40,16 +37,14 @@ jobs:
         with:
           name: ${{{{ github.ref_name }}}}-permission-{geo-jobs_env}
           template: cf-stacks/compute-permission-stack.yml
-          tags: "[ {{ \"Key\": \"app\", \"Value\": \"{geo-jobs_env}\" }}, {{ \"Key\": \"env\", \"Value\": \"${{{{ github.ref_name }}}}\" }}, {{ \"Key\": \"user:poja\", \"Value\": \"geo-jobs\" }} ]"
+          tags: "[ {{ \\"Key\\": \\"app\\", \\"Value\\": \\"{geo-jobs_env}\\" }}, {{ \\"Key\\": \\"env\\", \\"Value\\": \\"${{{{ github.ref_name }}}}\\" }}, {{ \\"Key\\": \\"user:poja\\", \\"Value\\": \\"{geo-jobs_env}\\" }} ]"
           capabilities: CAPABILITY_NAMED_IAM
           no-fail-on-empty-changeset: "1"
           parameter-overrides:
             "Env=${{{{ github.ref_name }}}}"
+""",
 
-    """,
-
-    ".github/workflows/cd-compute.yml":"""
-name: CD compute
+    ".github/workflows/cd-compute.yml": """name: CD compute
 
 on:
   push:
@@ -95,7 +90,7 @@ jobs:
       - name: Disable tests
         if: ${{{{ github.event.inputs.run_tests == 'no' }}}}
         run: |
-          printf "tasks.named('test').configure {{\n    enabled = false\n}}" >> build.gradle
+          printf "tasks.named('test').configure {{\\n    enabled = false\\n}}" >> build.gradle
 
       - run: sam build
 
@@ -106,11 +101,9 @@ jobs:
     needs: [deploy-api]
     if: ${{{{ needs.deploy-api.result == 'success' && (github.ref_name == 'prod' || github.ref_name == 'preprod') }}}}
     uses: ./.github/workflows/health-check-infra.yml
-    secrets: inherit
-    """,
+    secrets: inherit""",
 
-    ".github/workflows/cd-event.yml": """
-name: CD event
+    ".github/workflows/cd-event.yml": """name: CD event
 
 on:
   push:
@@ -145,15 +138,13 @@ jobs:
         with:
           name: ${{{{ github.ref_name }}}}-event-{geo-jobs_env}
           template: cf-stacks/event-stack.yml
-          tags: "[ {{ \"Key\": \"app\", \"Value\": \"{geo-jobs_env}\" }}, {{ \"Key\": \"env\", \"Value\": \"${{{{ github.ref_name }}}}\" }}, {{ \"Key\": \"user:poja\", \"Value\": \"{geo-jobs_env}\" }} ]"
+          tags: "[ {{ \\"Key\\": \\"app\\", \\"Value\\": \\"{geo-jobs_env}\\" }}, {{ \\"Key\\": \\"env\\", \\"Value\\": \\"${{{{ github.ref_name }}}}\\" }}, {{ \\"Key\\": \\"user:poja\\", \\"Value\\": \\"{geo-jobs_env}\\" }} ]"
           capabilities: CAPABILITY_NAMED_IAM
           no-fail-on-empty-changeset: "1"
           parameter-overrides:
-            "Env=${{{{ github.ref_name }}}}"
-""",
+            "Env=${{{{ github.ref_name }}}}\"""",
 
-    ".github/workflows/cd-storage-bucket.yml": """
-name: CD storage bucket
+    ".github/workflows/cd-storage-bucket.yml": """name: CD storage bucket
 
 on:
   push:
@@ -187,15 +178,13 @@ jobs:
         with:
           name: ${{{{ github.ref_name }}}}-bucket-{geo-jobs_env}
           template: cf-stacks/storage-bucket-stack.yml
-          tags: "[ {{ \"Key\": \"app\", \"Value\": \"{geo-jobs_env}\" }}, {{ \"Key\": \"env\", \"Value\": \"${{{{ github.ref_name }}}}\" }}, {{ \"Key\": \"user:poja\", \"Value\": \"{geo-jobs_env}\" }} ]"
+          tags: "[ {{ \\"Key\\": \\"app\\", \\"Value\\": \\"{geo-jobs_env}\\" }}, {{ \\"Key\\": \\"env\\", \\"Value\\": \\"${{{{ github.ref_name }}}}\\" }}, {{ \\"Key\\": \\"user:poja\\", \\"Value\\": \\"{geo-jobs_env}\\" }} ]"
           capabilities: CAPABILITY_NAMED_IAM
           no-fail-on-empty-changeset: "1"
           parameter-overrides:
-            "Env=${{{{ github.ref_name }}}}"
-""",
+            "Env=${{{{ github.ref_name }}}}\"""",
 
-    ".shell/checkAsyncStack.sh": """
-sudo apt-get install jq
+    ".shell/checkAsyncStack.sh": """sudo apt-get install jq
 export API_URL_SSM="`aws ssm get-parameter --name /{geo-jobs_env}/$1/api/url`"
 export API_URL=`echo $API_URL_SSM | jq -r '.Parameter.Value'`
 created_uuids=$(curl --fail -X GET "$API_URL$2")
@@ -205,18 +194,14 @@ if [ "$output" = "OK" ]; then
   exit 0
 else
   exit 1
-fi
-""",
+fi""",
 
-    ".shell/checkHealth.sh": """
-sudo apt-get install jq
+    ".shell/checkHealth.sh": """sudo apt-get install jq
 export API_URL_SSM="`aws ssm get-parameter --name /{geo-jobs_env}/$1/api/url`"
 export API_URL=`echo $API_URL_SSM | jq -r '.Parameter.Value'`
-curl --fail "$API_URL$2"
-""",
+curl --fail "$API_URL$2\"""",
 
-    "build.gradle": """
-import org.apache.tools.ant.taskdefs.condition.Os
+    "build.gradle": """import org.apache.tools.ant.taskdefs.condition.Os
 import org.openapitools.generator.gradle.plugin.tasks.GenerateTask
 
 plugins {{
@@ -228,7 +213,7 @@ plugins {{
 
     id 'jacoco'
 
-    id "org.sonarqube" version "4.4.1.3373"
+    id "org.sonarqube" version "4.4.1.3373" 
 }}
 
 jacoco {{
@@ -240,7 +225,7 @@ sonarqube {{
         property "sonar.java.source", "21"
         property "sonar.java.target", "21"
     }}
-}}
+}} 
 
 repositories {{
 mavenLocal()
@@ -264,8 +249,8 @@ configurations {{
 
 task generateJavaClient(type: GenerateTask) {{
     generatorName = "java"
-    inputSpec = "${{rootDir}}/doc/api.yml".toString()
-    outputDir = "${{buildDir}}/gen".toString()
+    inputSpec = "$rootDir/doc/api.yml".toString()
+    outputDir = "$buildDir/gen".toString()
     apiPackage = "app.bpartners.geojobs.endpoint.rest.api"
     invokerPackage = "app.bpartners.geojobs.endpoint.rest.client"
     modelPackage = "app.bpartners.geojobs.endpoint.rest.model"
@@ -291,8 +276,8 @@ task generateJavaClient(type: GenerateTask) {{
 }}
 task generateTsClient(type: org.openapitools.generator.gradle.plugin.tasks.GenerateTask) {{
     generatorName = "typescript-axios"
-    inputSpec = "${{rootDir}}/doc/api.yml".toString()
-    outputDir = "${{buildDir}}/gen-ts".toString()
+    inputSpec = "$rootDir/doc/api.yml".toString()
+    outputDir = "$buildDir/gen-ts".toString()
     typeMappings = [
             Date    : "Date",
             DateTime: "Date",
@@ -347,6 +332,8 @@ jacocoTestReport {{
         html.required = true
     }}
     afterEvaluate {{
+        // Need to be duplicated like this from jacocoTestCoverageVerification,
+        // else display coverageRate is inconsistent with what was computed during coverage...
         classDirectories.setFrom(files(classDirectories.files.collect {{
             fileTree(dir: it, exclude: [
                     "**/gen/**"
@@ -354,7 +341,7 @@ jacocoTestReport {{
         }}))
     }}
     doLast {{
-        def coverageReportFile = file("${{rootDir}}/build/reports/jacoco/test/jacocoTestReport.xml")
+        def coverageReportFile = file("$rootDir/build/reports/jacoco/test/jacocoTestReport.xml")
 
         if (coverageReportFile.exists()) {{
             def xmlParser = new XmlParser()
@@ -383,7 +370,7 @@ jacocoTestReport {{
 }}
 
 dependencies {{
-   implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.flywaydb:flyway-core'
     testImplementation 'org.testcontainers:postgresql:1.20.0'
@@ -447,11 +434,9 @@ implementation 'org.geotools:gt-epsg-hsql:31.2'
     implementation 'org.citygml4j:citygml4j-cityjson:3.2.6'
 
 }}
-
 """,
 
-    "cf-stacks/compute-permission-stack.yml": """
-AWSTemplateFormatVersion: "2010-09-09"
+    "cf-stacks/compute-permission-stack.yml": """AWSTemplateFormatVersion: "2010-09-09"
 Description: {geo-jobs_env} - Compute permission
 
 Parameters:
@@ -462,7 +447,7 @@ Resources:
   ExecutionRole:
     Type: AWS::IAM::Role
     Properties:
-RoleName: !Join [ '', [ {geo-jobs_env}-, !Ref Env, -ExecutionRole ] ]
+      RoleName: !Join [ '', [ {geo-jobs_env}-, !Ref Env, -ExecutionRole ] ]
       AssumeRolePolicyDocument:
         Statement:
           - Effect: Allow
@@ -478,11 +463,9 @@ RoleName: !Join [ '', [ {geo-jobs_env}-, !Ref Env, -ExecutionRole ] ]
       Name: !Join [ '',[ /{geo-jobs_env}/ , !Ref Env , /execution/role-arn ] ]
       Type: String
       Value: !GetAtt ExecutionRole.Arn
-
 """,
 
-    "cf-stacks/domain-name-stack.yml": """
-AWSTemplateFormatVersion: 2010-09-09
+    "cf-stacks/domain-name-stack.yml": """AWSTemplateFormatVersion: 2010-09-09
 Description: {geo-jobs_env} - Domain name
 
 Parameters:
@@ -511,11 +494,9 @@ Resources:
     Properties:
       DomainName: !Ref CustomDomainName
       ApiId: !Ref ApiId
-      Stage: !Ref ApiStage
-""",
+      Stage: !Ref ApiStage""",
 
-    "cf-stacks/event-stack.yml": """
-AWSTemplateFormatVersion: "2010-09-09"
+    "cf-stacks/event-stack.yml": """AWSTemplateFormatVersion: "2010-09-09"
 Description: {geo-jobs_env} - Event
 
 Parameters:
@@ -931,11 +912,9 @@ Outputs:
     Value: !Ref EventBridgeBusNameSSM
   EventBridgeArnName:
     Value: !Ref EventBridgeBusArnSSM
-
 """,
 
-    "cf-stacks/storage-bucket-stack.yml": """
-AWSTemplateFormatVersion: 2010-09-09
+    "cf-stacks/storage-bucket-stack.yml": """AWSTemplateFormatVersion: 2010-09-09
 Description: CD storage database
 
 Parameters:
@@ -964,11 +943,9 @@ Resources:
 
 Outputs:
   BucketSSM:
-    Value: !Ref BucketSSM
-""",
+    Value: !Ref BucketSSM""",
 
-    "poja-custom-java-deps.txt": """
-implementation 'org.springframework.boot:spring-boot-starter-security'
+    "poja-custom-java-deps.txt": """implementation 'org.springframework.boot:spring-boot-starter-security'
 implementation 'app.bpartners:{geo-jobs_env}-gen:latest'
 implementation 'org.thymeleaf:thymeleaf:3.1.1.RELEASE'
 implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.16.1'
@@ -980,11 +957,9 @@ implementation 'org.geotools:gt-epsg-hsql:31.2'
 implementation 'com.github.mreutegg:laszip4j:0.20'
 implementation 'org.jgrapht:jgrapht-core:1.5.2'
 implementation 'org.citygml4j:citygml4j-cityjson:3.2.6'
-   
 """,
 
-    "poja-custom-java-env-vars.txt": """
-TILES_DOWNLOADER_API_URL: !Sub '{{{{resolve:ssm:/geo-jobs/${{Env}}/tiles/downloader/url}}}}'
+    "poja-custom-java-env-vars.txt": """TILES_DOWNLOADER_API_URL: !Sub '{{{{resolve:ssm:/geo-jobs/${{Env}}/tiles/downloader/url}}}}'
 ADMIN_API_KEY: !Sub '{{{{resolve:ssm:/bpartners-geo-jobs/${{Env}}/admin/api-key}}}}'
 ANNOTATOR_API_URL: !Sub '{{{{resolve:ssm:/geo-jobs/${{Env}}/annotator/url}}}}'
 ANNOTATOR_API_KEY: !Sub '{{{{resolve:ssm:/geo-jobs/${{Env}}/annotator/api/key}}}}'
@@ -1002,11 +977,9 @@ README_WEBHOOK_SECRET: !Sub '{{{{resolve:ssm:/geo-jobs/${{Env}}/readme/webhook/s
 BPARTNERS_API_URL: !Sub '{{{{resolve:ssm:/geo-jobs/${{Env}}/bpartners/api/url}}}}'
 GEOSERVER_API_URL: !Sub '{{{{resolve:ssm:/geo-jobs/${{Env}}/geoserver/api/url}}}}'
 IGN_LIDAR_API_URL: !Sub '{{{{resolve:ssm:/geo-jobs/${{Env}}/ign/lidar/api/url}}}}'
-ROOF_COVERING_DETECTION_API_URL: !Sub '{{{{resolve:ssm:/geo-jobs/${{Env}}/covering/detection/api/url}}}}'
-""",
+ROOF_COVERING_DETECTION_API_URL: !Sub '{{{{resolve:ssm:/geo-jobs/${{Env}}/covering/detection/api/url}}}}'""",
 
-    "poja.yml": """
-compute:
+    "poja.yml": """compute:
   api_gateway_timeout: null
   frontal_function_invocation_method: lambda-url
   frontal_function_timeout: 300
@@ -1041,7 +1014,7 @@ gen_api_client:
   with_gen_clients: 'true'
   with_publish_to_npm_registry: 'false'
 general:
-  app_name: geo-jobs
+  app_name: {geo-jobs_env}
   cli_version: 20.0.6
   custom_java_deps: poja-custom-java-deps.txt
   custom_java_env_vars: poja-custom-java-env-vars.txt
@@ -1067,11 +1040,9 @@ scheduled_tasks: null
 testing:
   jacoco_min_coverage: '0.8'
   java_facade_it: FacadeIT
-
 """,
 
-    "template.yml": """
-AWSTemplateFormatVersion: '2010-09-09'
+    "template.yml": """AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: {geo-jobs_env} - Computation and API
 
@@ -1103,7 +1074,7 @@ Globals:
         AWS_EVENT_STACK_2_SQS_QUEUE_URL: !Sub '{{{{resolve:ssm:/{geo-jobs_env}/${{Env}}/2/sqs/mailbox-queue-url}}}}'
         AWS_EVENT_STACK_3_SQS_QUEUE_URL: !Sub '{{{{resolve:ssm:/{geo-jobs_env}/${{Env}}/3/sqs/mailbox-queue-url}}}}'
         AWS_EVENT_STACK_4_SQS_QUEUE_URL: !Sub '{{{{resolve:ssm:/{geo-jobs_env}/${{Env}}/4/sqs/mailbox-queue-url}}}}'
-        
+
         SENTRY_DSN: !Sub '{{{{resolve:ssm:/{geo-jobs_env}/sentry/dsn}}}}'
         SENTRY_ENVIRONMENT: !Ref Env
         TILES_DOWNLOADER_API_URL: !Sub '{{{{resolve:ssm:/geo-jobs/${{Env}}/tiles/downloader/url}}}}'
@@ -1135,7 +1106,7 @@ Parameters:
     Type: String
 
 Resources:
-  
+
   FrontalFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -1143,11 +1114,11 @@ Resources:
       MemorySize: 2048
       Timeout: 300
       Role: !Sub '{{{{resolve:ssm:/{geo-jobs_env}/${{Env}}/execution/role-arn}}}}'
-      
+
       FunctionUrlConfig:
         AuthType: NONE
         InvokeMode: BUFFERED
-        
+
 
   WorkerFunction1:
     Type: AWS::Serverless::Function
@@ -1219,12 +1190,11 @@ Resources:
       Name: !Join [ '', [ /{geo-jobs_env}/, !Ref Env, /api/url ] ]
       Type: String
       Value: !GetAtt FrontalFunctionUrl.FunctionUrl
-  
+
 Outputs:
   ApiUrl:
     Description: Url to access the frontal function
     Value: !GetAtt FrontalFunctionUrl.FunctionUrl
-        
 
 """,
 }
