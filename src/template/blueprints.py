@@ -95,7 +95,7 @@ jobs:
       - name: Disable tests
         if: ${{{{ github.event.inputs.run_tests == 'no' }}}}
         run: |
-          printf "tasks.named('test').configure {{\n    enabled = false\n}}" >> build.gradle
+          printf "tasks.named('test').configure {{\\n    enabled = false\\n}}" >> build.gradle
 
       - run: sam build
 
