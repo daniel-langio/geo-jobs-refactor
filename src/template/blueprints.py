@@ -2,7 +2,7 @@ poja_config_blueprints = {
     "settings.gradle": """rootProject.name = '{geo-jobs_env}'
 """,
 
-    ".github/workflows/cd-compute-permission.yml":"""name: CD compute permission
+    ".github/workflows/cd-compute-permission.yml": """name: CD compute permission
 
 on:
   push:
@@ -44,7 +44,7 @@ jobs:
             "Env=${{{{ github.ref_name }}}}"
 """,
 
-    ".github/workflows/cd-compute.yml":"""name: CD compute
+    ".github/workflows/cd-compute.yml": """name: CD compute
 
 on:
   push:
@@ -1014,7 +1014,7 @@ gen_api_client:
   with_gen_clients: 'true'
   with_publish_to_npm_registry: 'false'
 general:
-  app_name: geo-jobs
+  app_name: {geo-jobs_env}
   cli_version: 20.0.6
   custom_java_deps: poja-custom-java-deps.txt
   custom_java_env_vars: poja-custom-java-env-vars.txt
@@ -1074,7 +1074,7 @@ Globals:
         AWS_EVENT_STACK_2_SQS_QUEUE_URL: !Sub '{{{{resolve:ssm:/{geo-jobs_env}/${{Env}}/2/sqs/mailbox-queue-url}}}}'
         AWS_EVENT_STACK_3_SQS_QUEUE_URL: !Sub '{{{{resolve:ssm:/{geo-jobs_env}/${{Env}}/3/sqs/mailbox-queue-url}}}}'
         AWS_EVENT_STACK_4_SQS_QUEUE_URL: !Sub '{{{{resolve:ssm:/{geo-jobs_env}/${{Env}}/4/sqs/mailbox-queue-url}}}}'
-        
+
         SENTRY_DSN: !Sub '{{{{resolve:ssm:/{geo-jobs_env}/sentry/dsn}}}}'
         SENTRY_ENVIRONMENT: !Ref Env
         TILES_DOWNLOADER_API_URL: !Sub '{{{{resolve:ssm:/geo-jobs/${{Env}}/tiles/downloader/url}}}}'
@@ -1106,7 +1106,7 @@ Parameters:
     Type: String
 
 Resources:
-  
+
   FrontalFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -1114,11 +1114,11 @@ Resources:
       MemorySize: 2048
       Timeout: 300
       Role: !Sub '{{{{resolve:ssm:/{geo-jobs_env}/${{Env}}/execution/role-arn}}}}'
-      
+
       FunctionUrlConfig:
         AuthType: NONE
         InvokeMode: BUFFERED
-        
+
 
   WorkerFunction1:
     Type: AWS::Serverless::Function
@@ -1190,11 +1190,11 @@ Resources:
       Name: !Join [ '', [ /{geo-jobs_env}/, !Ref Env, /api/url ] ]
       Type: String
       Value: !GetAtt FrontalFunctionUrl.FunctionUrl
-  
+
 Outputs:
   ApiUrl:
     Description: Url to access the frontal function
     Value: !GetAtt FrontalFunctionUrl.FunctionUrl
-        
+
 """,
 }
