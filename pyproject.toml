@@ -11,7 +11,7 @@ dependencies = [
 
 [tool.ruff]
 line-length = 88
-select = ["E", "F", "W", "C"]  # types de règles à appliquer
-ignore = ["E501"]               # exemple : ignorer les lignes trop longues
+lint.select = ["E", "F", "W", "C"]  # types de règles à appliquer
+lint.ignore = ["E501"]               # exemple : ignorer les lignes trop longues
 exclude = ["venv", "build", ".venv"]     # dossiers à ignorer
 
