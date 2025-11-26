@@ -105,8 +105,7 @@ jobs:
     uses: ./.github/workflows/health-check-infra.yml
     secrets: inherit""",
 
-    ".github/workflows/cd-event.yml": """
-name: CD event
+    ".github/workflows/cd-event.yml": """name: CD event
 
 on:
   push:
@@ -141,12 +140,11 @@ jobs:
         with:
           name: ${{{{ github.ref_name }}}}-event-{geo-jobs_env}
           template: cf-stacks/event-stack.yml
-          tags: "[ {{ \"Key\": \"app\", \"Value\": \"{geo-jobs_env}\" }}, {{ \"Key\": \"env\", \"Value\": \"${{{{ github.ref_name }}}}\" }}, {{ \"Key\": \"user:poja\", \"Value\": \"{geo-jobs_env}\" }} ]"
+          tags: "[ {{ \\"Key\\": \\"app\\", \\"Value\\": \\"{geo-jobs_env}\\" }}, {{ \\"Key\\": \\"env\\", \\"Value\\": \\"${{{{ github.ref_name }}}}\\" }}, {{ \\"Key\\": \\"user:poja\\", \\"Value\\": \\"{geo-jobs_env}\\" }} ]"
           capabilities: CAPABILITY_NAMED_IAM
           no-fail-on-empty-changeset: "1"
           parameter-overrides:
-            "Env=${{{{ github.ref_name }}}}"
-""",
+            "Env=${{{{ github.ref_name }}}}\"""",
 
     ".github/workflows/cd-storage-bucket.yml": """
 name: CD storage bucket
