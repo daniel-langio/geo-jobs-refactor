@@ -1000,8 +1000,7 @@ IGN_LIDAR_API_URL: !Sub '{{{{resolve:ssm:/geo-jobs/${{Env}}/ign/lidar/api/url}}}
 ROOF_COVERING_DETECTION_API_URL: !Sub '{{{{resolve:ssm:/geo-jobs/${{Env}}/covering/detection/api/url}}}}'
 """,
 
-    "poja.yml": """
-compute:
+    "poja.yml": """compute:
   api_gateway_timeout: null
   frontal_function_invocation_method: lambda-url
   frontal_function_timeout: 300
@@ -1062,7 +1061,6 @@ scheduled_tasks: null
 testing:
   jacoco_min_coverage: '0.8'
   java_facade_it: FacadeIT
-
 """,
 
     "template.yml": """
