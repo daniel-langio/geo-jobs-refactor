@@ -37,7 +37,7 @@ jobs:
         with:
           name: ${{{{ github.ref_name }}}}-permission-{geo-jobs_env}
           template: cf-stacks/compute-permission-stack.yml
-          tags: "[ {{ \\"Key\\": \\"app\\", \\"Value\\": \\"{geo-jobs_env}\\" }}, {{ \\"Key\\": \\"env\\", \\"Value\\": \\"${{{{ github.ref_name }}}}\\" }}, {{ \\"Key\\": \\"user:poja\\", \\"Value\\": \\"geo-jobs\\" }} ]"
+          tags: "[ {{ \\"Key\\": \\"app\\", \\"Value\\": \\"{geo-jobs_env}\\" }}, {{ \\"Key\\": \\"env\\", \\"Value\\": \\"${{{{ github.ref_name }}}}\\" }}, {{ \\"Key\\": \\"user:poja\\", \\"Value\\": \\"{geo-jobs_env}\\" }} ]"
           capabilities: CAPABILITY_NAMED_IAM
           no-fail-on-empty-changeset: "1"
           parameter-overrides:
