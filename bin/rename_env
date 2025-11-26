@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+set -e
+
+# Path to the folder where this script lives → go to project root
+PROJECT_FOLDER="$(cd "$(dirname "${BASH_SOURCE[0]}")" && cd .. && pwd)"
+
+# Directory where the user was when running the script
+CALL_DIR="$(pwd)"
+
+# Default values
+PROJECT_ROOT=""
+ENV_NAME=""
+
+# Parse arguments
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        -n|--env-name)
+            ENV_NAME="$2"
+            shift 2
+            ;;
+        -p|--project-root)
+            PROJECT_ROOT="$2"
+            shift 2
+            ;;
+        *)
+            echo "Unknown option: $1"
+            exit 1
+            ;;
+    esac
+done
+
+# If no -p was passed, use where the user ran the script
+if [[ -z "$PROJECT_ROOT" ]]; then
+    PROJECT_ROOT="$CALL_DIR"
+fi
+
+# Move into the project folder
+cd "$PROJECT_FOLDER"
+
+# Activate venv if exists
+if [[ -f "$PROJECT_FOLDER/.venv/bin/activate" ]]; then
+    source "$PROJECT_FOLDER/.venv/bin/activate"
+fi
+
+# Install deps
+uv sync
+
+# Run your Python module, forwarding env and project root
+uv run -m src.rename_environment \
+    --env-name "$ENV_NAME" \
+    --project-root "$PROJECT_ROOT"
