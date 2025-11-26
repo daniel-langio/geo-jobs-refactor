@@ -19,6 +19,6 @@ jobs:
       - name: Install dependencies
         run: |
           pip install uv
-          uv pip sync
+          uv pip install .
       - name: Run ruff
         run: uv run ruff check .
