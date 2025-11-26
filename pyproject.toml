@@ -13,5 +13,5 @@ dependencies = [
 line-length = 88
 lint.select = ["E", "F", "W", "C"]  # types de règles à appliquer
 lint.ignore = ["E501"]               # exemple : ignorer les lignes trop longues
-exclude = ["venv", "build", ".venv"]     # dossiers à ignorer
+exclude = ["venv", "build", ".venv", "src/template/blueprints.py"]     # dossiers à ignorer
 
