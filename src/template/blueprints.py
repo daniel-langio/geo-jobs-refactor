@@ -480,8 +480,7 @@ Resources:
       Value: !GetAtt ExecutionRole.Arn
 """,
 
-    "cf-stacks/domain-name-stack.yml": """
-AWSTemplateFormatVersion: 2010-09-09
+    "cf-stacks/domain-name-stack.yml": """AWSTemplateFormatVersion: 2010-09-09
 Description: {geo-jobs_env} - Domain name
 
 Parameters:
@@ -510,8 +509,7 @@ Resources:
     Properties:
       DomainName: !Ref CustomDomainName
       ApiId: !Ref ApiId
-      Stage: !Ref ApiStage
-""",
+      Stage: !Ref ApiStage""",
 
     "cf-stacks/event-stack.yml": """
 AWSTemplateFormatVersion: "2010-09-09"
