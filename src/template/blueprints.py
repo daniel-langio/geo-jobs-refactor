@@ -1,8 +1,6 @@
 poja_config_blueprints = {
-    "settings.gradle": """
-rootProject.name = '{geo-jobs_env}'
-
-    """,
+    "settings.gradle": """rootProject.name = '{geo-jobs_env}'
+""",
 
     ".github/workflows/cd-compute-permission.yml":"""name: CD compute permission
 
@@ -198,12 +196,10 @@ else
   exit 1
 fi""",
 
-    ".shell/checkHealth.sh": """
-sudo apt-get install jq
+    ".shell/checkHealth.sh": """sudo apt-get install jq
 export API_URL_SSM="`aws ssm get-parameter --name /{geo-jobs_env}/$1/api/url`"
 export API_URL=`echo $API_URL_SSM | jq -r '.Parameter.Value'`
-curl --fail "$API_URL$2"
-""",
+curl --fail "$API_URL$2\"""",
 
     "build.gradle": """import org.apache.tools.ant.taskdefs.condition.Os
 import org.openapitools.generator.gradle.plugin.tasks.GenerateTask
@@ -918,8 +914,7 @@ Outputs:
     Value: !Ref EventBridgeBusArnSSM
 """,
 
-    "cf-stacks/storage-bucket-stack.yml": """
-AWSTemplateFormatVersion: 2010-09-09
+    "cf-stacks/storage-bucket-stack.yml": """AWSTemplateFormatVersion: 2010-09-09
 Description: CD storage database
 
 Parameters:
@@ -948,11 +943,9 @@ Resources:
 
 Outputs:
   BucketSSM:
-    Value: !Ref BucketSSM
-""",
+    Value: !Ref BucketSSM""",
 
-    "poja-custom-java-deps.txt": """
-implementation 'org.springframework.boot:spring-boot-starter-security'
+    "poja-custom-java-deps.txt": """implementation 'org.springframework.boot:spring-boot-starter-security'
 implementation 'app.bpartners:{geo-jobs_env}-gen:latest'
 implementation 'org.thymeleaf:thymeleaf:3.1.1.RELEASE'
 implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.16.1'
@@ -964,11 +957,9 @@ implementation 'org.geotools:gt-epsg-hsql:31.2'
 implementation 'com.github.mreutegg:laszip4j:0.20'
 implementation 'org.jgrapht:jgrapht-core:1.5.2'
 implementation 'org.citygml4j:citygml4j-cityjson:3.2.6'
-   
 """,
 
-    "poja-custom-java-env-vars.txt": """
-TILES_DOWNLOADER_API_URL: !Sub '{{{{resolve:ssm:/geo-jobs/${{Env}}/tiles/downloader/url}}}}'
+    "poja-custom-java-env-vars.txt": """TILES_DOWNLOADER_API_URL: !Sub '{{{{resolve:ssm:/geo-jobs/${{Env}}/tiles/downloader/url}}}}'
 ADMIN_API_KEY: !Sub '{{{{resolve:ssm:/bpartners-geo-jobs/${{Env}}/admin/api-key}}}}'
 ANNOTATOR_API_URL: !Sub '{{{{resolve:ssm:/geo-jobs/${{Env}}/annotator/url}}}}'
 ANNOTATOR_API_KEY: !Sub '{{{{resolve:ssm:/geo-jobs/${{Env}}/annotator/api/key}}}}'
@@ -986,8 +977,7 @@ README_WEBHOOK_SECRET: !Sub '{{{{resolve:ssm:/geo-jobs/${{Env}}/readme/webhook/s
 BPARTNERS_API_URL: !Sub '{{{{resolve:ssm:/geo-jobs/${{Env}}/bpartners/api/url}}}}'
 GEOSERVER_API_URL: !Sub '{{{{resolve:ssm:/geo-jobs/${{Env}}/geoserver/api/url}}}}'
 IGN_LIDAR_API_URL: !Sub '{{{{resolve:ssm:/geo-jobs/${{Env}}/ign/lidar/api/url}}}}'
-ROOF_COVERING_DETECTION_API_URL: !Sub '{{{{resolve:ssm:/geo-jobs/${{Env}}/covering/detection/api/url}}}}'
-""",
+ROOF_COVERING_DETECTION_API_URL: !Sub '{{{{resolve:ssm:/geo-jobs/${{Env}}/covering/detection/api/url}}}}'""",
 
     "poja.yml": """compute:
   api_gateway_timeout: null
@@ -1052,8 +1042,7 @@ testing:
   java_facade_it: FacadeIT
 """,
 
-    "template.yml": """
-AWSTemplateFormatVersion: '2010-09-09'
+    "template.yml": """AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: {geo-jobs_env} - Computation and API
 
@@ -1207,6 +1196,5 @@ Outputs:
     Description: Url to access the frontal function
     Value: !GetAtt FrontalFunctionUrl.FunctionUrl
         
-
 """,
 }
