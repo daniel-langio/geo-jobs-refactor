@@ -48,8 +48,7 @@ jobs:
 
     """,
 
-    ".github/workflows/cd-compute.yml":"""
-name: CD compute
+    ".github/workflows/cd-compute.yml":"""name: CD compute
 
 on:
   push:
@@ -106,8 +105,7 @@ jobs:
     needs: [deploy-api]
     if: ${{{{ needs.deploy-api.result == 'success' && (github.ref_name == 'prod' || github.ref_name == 'preprod') }}}}
     uses: ./.github/workflows/health-check-infra.yml
-    secrets: inherit
-    """,
+    secrets: inherit""",
 
     ".github/workflows/cd-event.yml": """
 name: CD event
