@@ -215,8 +215,7 @@ export API_URL=`echo $API_URL_SSM | jq -r '.Parameter.Value'`
 curl --fail "$API_URL$2"
 """,
 
-    "build.gradle": """
-import org.apache.tools.ant.taskdefs.condition.Os
+    "build.gradle": """import org.apache.tools.ant.taskdefs.condition.Os
 import org.openapitools.generator.gradle.plugin.tasks.GenerateTask
 
 plugins {{
