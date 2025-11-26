@@ -228,7 +228,7 @@ plugins {{
 
     id 'jacoco'
 
-    id "org.sonarqube" version "4.4.1.3373"
+    id "org.sonarqube" version "4.4.1.3373" 
 }}
 
 jacoco {{
@@ -240,7 +240,7 @@ sonarqube {{
         property "sonar.java.source", "21"
         property "sonar.java.target", "21"
     }}
-}}
+}} 
 
 repositories {{
 mavenLocal()
@@ -264,8 +264,8 @@ configurations {{
 
 task generateJavaClient(type: GenerateTask) {{
     generatorName = "java"
-    inputSpec = "${{rootDir}}/doc/api.yml".toString()
-    outputDir = "${{buildDir}}/gen".toString()
+    inputSpec = "$rootDir/doc/api.yml".toString()
+    outputDir = "$buildDir/gen".toString()
     apiPackage = "app.bpartners.geojobs.endpoint.rest.api"
     invokerPackage = "app.bpartners.geojobs.endpoint.rest.client"
     modelPackage = "app.bpartners.geojobs.endpoint.rest.model"
@@ -291,8 +291,8 @@ task generateJavaClient(type: GenerateTask) {{
 }}
 task generateTsClient(type: org.openapitools.generator.gradle.plugin.tasks.GenerateTask) {{
     generatorName = "typescript-axios"
-    inputSpec = "${{rootDir}}/doc/api.yml".toString()
-    outputDir = "${{buildDir}}/gen-ts".toString()
+    inputSpec = "$rootDir/doc/api.yml".toString()
+    outputDir = "$buildDir/gen-ts".toString()
     typeMappings = [
             Date    : "Date",
             DateTime: "Date",
@@ -347,6 +347,8 @@ jacocoTestReport {{
         html.required = true
     }}
     afterEvaluate {{
+        // Need to be duplicated like this from jacocoTestCoverageVerification,
+        // else display coverageRate is inconsistent with what was computed during coverage...
         classDirectories.setFrom(files(classDirectories.files.collect {{
             fileTree(dir: it, exclude: [
                     "**/gen/**"
@@ -354,7 +356,7 @@ jacocoTestReport {{
         }}))
     }}
     doLast {{
-        def coverageReportFile = file("${{rootDir}}/build/reports/jacoco/test/jacocoTestReport.xml")
+        def coverageReportFile = file("$rootDir/build/reports/jacoco/test/jacocoTestReport.xml")
 
         if (coverageReportFile.exists()) {{
             def xmlParser = new XmlParser()
@@ -383,7 +385,7 @@ jacocoTestReport {{
 }}
 
 dependencies {{
-   implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.flywaydb:flyway-core'
     testImplementation 'org.testcontainers:postgresql:1.20.0'
@@ -447,7 +449,6 @@ implementation 'org.geotools:gt-epsg-hsql:31.2'
     implementation 'org.citygml4j:citygml4j-cityjson:3.2.6'
 
 }}
-
 """,
 
     "cf-stacks/compute-permission-stack.yml": """
