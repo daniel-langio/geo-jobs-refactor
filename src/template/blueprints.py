@@ -511,8 +511,7 @@ Resources:
       ApiId: !Ref ApiId
       Stage: !Ref ApiStage""",
 
-    "cf-stacks/event-stack.yml": """
-AWSTemplateFormatVersion: "2010-09-09"
+    "cf-stacks/event-stack.yml": """AWSTemplateFormatVersion: "2010-09-09"
 Description: {geo-jobs_env} - Event
 
 Parameters:
@@ -928,7 +927,6 @@ Outputs:
     Value: !Ref EventBridgeBusNameSSM
   EventBridgeArnName:
     Value: !Ref EventBridgeBusArnSSM
-
 """,
 
     "cf-stacks/storage-bucket-stack.yml": """
