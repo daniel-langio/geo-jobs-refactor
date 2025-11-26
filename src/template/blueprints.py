@@ -451,8 +451,7 @@ implementation 'org.geotools:gt-epsg-hsql:31.2'
 }}
 """,
 
-    "cf-stacks/compute-permission-stack.yml": """
-AWSTemplateFormatVersion: "2010-09-09"
+    "cf-stacks/compute-permission-stack.yml": """AWSTemplateFormatVersion: "2010-09-09"
 Description: {geo-jobs_env} - Compute permission
 
 Parameters:
@@ -463,7 +462,7 @@ Resources:
   ExecutionRole:
     Type: AWS::IAM::Role
     Properties:
-RoleName: !Join [ '', [ {geo-jobs_env}-, !Ref Env, -ExecutionRole ] ]
+      RoleName: !Join [ '', [ {geo-jobs_env}-, !Ref Env, -ExecutionRole ] ]
       AssumeRolePolicyDocument:
         Statement:
           - Effect: Allow
@@ -479,7 +478,6 @@ RoleName: !Join [ '', [ {geo-jobs_env}-, !Ref Env, -ExecutionRole ] ]
       Name: !Join [ '',[ /{geo-jobs_env}/ , !Ref Env , /execution/role-arn ] ]
       Type: String
       Value: !GetAtt ExecutionRole.Arn
-
 """,
 
     "cf-stacks/domain-name-stack.yml": """
