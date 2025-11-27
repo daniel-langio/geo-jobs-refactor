@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+set -e
+
+# Path to the folder where this script lives → go to project root
+MIGRATOR_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && cd .. && pwd)"
+
+# Directory where the user was when running the script
+CALL_DIR="$(pwd)"
+
+# Default values
+PROJECT_ROOT=""
+ENV_NAME=""
+
+# Parse arguments
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        -n|--name)
+            ENV_NAME="$2"
+            shift 2
+            ;;
+        -p|--dest)
+            PROJECT_ROOT="$2"
+            shift 2
+            ;;
+        *)
+            echo "Unknown option: $1"
+            exit 1
+            ;;
+    esac
+done
+
+# If no -p was passed, use where the user ran the script
+if [[ -z "$PROJECT_ROOT" ]]; then
+    PROJECT_ROOT="$CALL_DIR"
+fi
+
+# Move into the project folder
+cd "$MIGRATOR_ROOT"
+
+# Activate venv if exists
+if [[ -f "$MIGRATOR_ROOT/.venv/bin/activate" ]]; then
+    source "$MIGRATOR_ROOT/.venv/bin/activate"
+fi
+
+# Install deps
+uv sync
+
+# Run the Python module, forwarding env_name and project root
+uv run -m src.clone_environment "$ENV_NAME" "$PROJECT_ROOT"
