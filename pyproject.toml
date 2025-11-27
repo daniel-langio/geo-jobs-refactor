@@ -1,7 +1,7 @@
 [project]
-name = "geo-jobs-refactor"
+name = "geo-jobs-migrator"
 version = "0.1.0"
-description = "Refactoring Tool For b-partners/geo-jobs"
+description = "Migration Tool For b-partners/geo-jobs"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [

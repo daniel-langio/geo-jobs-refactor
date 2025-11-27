@@ -1,4 +1,4 @@
-Refactoring Tool for b-partners/geo-jobs.
+Migration Tool for b-partners/geo-jobs.
 
 Useful information
 ---
